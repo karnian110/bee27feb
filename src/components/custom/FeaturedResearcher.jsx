@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +14,7 @@ import {
     ArrowRight,
     Building2,
     Sparkles,
+    User,
 } from "lucide-react";
 
 const containerVariants = {
@@ -38,21 +40,7 @@ const itemVariants = {
     },
 };
 
-const FeaturedResearcher = () => {
-    const researcher = {
-        name: "Dr. Alex Johnson",
-        profilePicture: "https://via.placeholder.com/150",
-        title: "Associate Professor",
-        institution: "International Tech University",
-        bio: "Dr. Alex Johnson focuses on AI-driven environmental solutions and smart city planning. Their research explores predictive modeling for sustainable urban development.",
-        fieldOfResearch: ["Environmental Science", "Smart Cities", "Urban Analytics"],
-        expertise: ["Machine Learning", "GIS", "Climate Modeling"],
-        papersPublished: 32,
-        citations: 890,
-        hIndex: 15,
-        i10Index: 20,
-    };
-
+const FeaturedResearcher = ({ researcher }) => {
     const metrics = [
         { icon: FileText, value: researcher.papersPublished, label: "Papers" },
         { icon: Link2, value: researcher.citations, label: "Citations" },
@@ -110,130 +98,153 @@ const FeaturedResearcher = () => {
                     {/* Card Header with Gradient Accent */}
                     <div className="h-2 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400" />
 
-                    <div className="p-6 sm:p-8 lg:p-10">
-                        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-                            {/* Left: Profile Section */}
-                            <motion.div
-                                variants={itemVariants}
-                                className="flex flex-col items-center lg:items-start"
-                            >
-                                {/* Profile Picture */}
-                                <div className="relative mb-6">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-amber-600 rounded-3xl transform rotate-6 opacity-20" />
-                                    <img
+                    <div className="flex flex-col lg:flex-row">
+                        {/* Left: Full Researcher Image */}
+                        <motion.div
+                            variants={itemVariants}
+                            className="relative w-full lg:w-80 xl:w-96 flex-shrink-0"
+                        >
+                            <div className="relative h-80 lg:h-full min-h-[320px] lg:min-h-full">
+                                {/* Background Gradient or Image */}
+                                {researcher.profilePicture ? (
+                                    <Image
                                         src={researcher.profilePicture}
                                         alt={researcher.name}
-                                        className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-3xl object-cover border-4 border-white shadow-lg"
+                                        fill
+                                        className="object-cover object-top"
+                                        sizes="(max-width: 1024px) 100vw, 384px"
+                                        priority
                                     />
-                                    <div className="absolute -bottom-3 -right-3 bg-amber-500 text-white p-2 rounded-xl shadow-lg">
-                                        <Award className="w-5 h-5 text-[#950E1D]" />
+                                ) : (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1B263B] to-[#2d3d5c]">
+                                        <div className="text-center">
+                                            <div className="w-20 h-20 mx-auto mb-3 rounded-full bg-white/10 flex items-center justify-center">
+                                                <User className="w-10 h-10 text-white/60" />
+                                            </div>
+                                            <span className="text-white/60 text-lg font-medium">
+                                                {researcher.name?.split(" ")?.[0] || "Researcher"}
+                                            </span>
+                                        </div>
+                                    </div>
+                                )}
+                                
+                                {/* Gradient Overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/10" />
+                                
+                                {/* Award Badge */}
+                                <div className="absolute top-4 left-4">
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 text-white rounded-xl text-xs font-semibold shadow-lg">
+                                        <Award className="w-3.5 h-3.5" />
+                                        Featured
                                     </div>
                                 </div>
 
-                                {/* Quick Info */}
-                                <div className="text-center lg:text-left">
-                                    <h3 className="text-2xl font-bold text-[#1B263B] mb-1">
-                                        {researcher.name}
-                                    </h3>
-                                    <p className="text-amber-600 font-medium mb-2">{researcher.title}</p>
-                                    <div className="flex items-center justify-center lg:justify-start gap-1.5 text-slate-500 text-sm">
-                                        <Building2 className="w-4 h-4 text-[#950E1D]" />
-                                        <span>{researcher.institution}</span>
+                                {/* Name Badge at Bottom (Mobile) / Right (Desktop) */}
+                                <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6">
+                                    <div className="p-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg">
+                                        <h3 className="text-xl font-bold text-[#1B263B] mb-1">
+                                            {researcher.name}
+                                        </h3>
+                                        <p className="text-[#950E1D] font-medium text-sm mb-1">{researcher.title}</p>
+                                        <div className="flex items-center gap-1.5 text-slate-500 text-xs">
+                                            <Building2 className="w-3.5 h-3.5 text-[#950E1D]" />
+                                            <span>{researcher.institution}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Right: Details Section */}
+                        <div className="flex-1 p-6 sm:p-8 lg:p-10">
+                            {/* Bio */}
+                            <motion.div variants={itemVariants} className="mb-6">
+                                <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                                    About
+                                </h4>
+                                <p className="text-slate-600 leading-relaxed text-base">
+                                    {researcher.bio}
+                                </p>
+                            </motion.div>
+
+                            {/* Fields & Expertise */}
+                            <motion.div
+                                variants={itemVariants}
+                                className="grid sm:grid-cols-2 gap-6 mb-8"
+                            >
+                                {/* Fields of Research */}
+                                <div>
+                                    <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                                        Fields of Research
+                                    </h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {researcher.fieldOfResearch?.map((field, idx) => (
+                                            <span
+                                                key={idx}
+                                                className="px-3 py-1.5 bg-[#1B263B]/5 text-[#1B263B] text-sm font-medium rounded-lg border border-[#1B263B]/10 hover:bg-[#1B263B]/10 transition-colors"
+                                            >
+                                                {field}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Expertise */}
+                                <div>
+                                    <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                                        Expertise
+                                    </h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {researcher.expertise?.map((skill, idx) => (
+                                            <span
+                                                key={idx}
+                                                className="px-3 py-1.5 bg-amber-50 text-amber-700 text-sm font-medium rounded-lg border border-amber-100 hover:bg-amber-100 transition-colors"
+                                            >
+                                                {skill}
+                                            </span>
+                                        ))}
                                     </div>
                                 </div>
                             </motion.div>
 
-                            {/* Right: Details Section */}
-                            <div className="flex-1">
-                                {/* Bio */}
-                                <motion.div variants={itemVariants} className="mb-6">
-                                    <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">
-                                        About
-                                    </h4>
-                                    <p className="text-slate-600 leading-relaxed text-base">
-                                        {researcher.bio}
-                                    </p>
-                                </motion.div>
-
-                                {/* Fields & Expertise */}
-                                <motion.div
-                                    variants={itemVariants}
-                                    className="grid sm:grid-cols-2 gap-6 mb-8"
-                                >
-                                    {/* Fields of Research */}
-                                    <div>
-                                        <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">
-                                            Fields of Research
-                                        </h4>
-                                        <div className="flex flex-wrap gap-2">
-                                            {researcher.fieldOfResearch.map((field, idx) => (
-                                                <span
-                                                    key={idx}
-                                                    className="px-3 py-1.5 bg-[#1B263B]/5 text-[#1B263B] text-sm font-medium rounded-lg border border-[#1B263B]/10 hover:bg-[#1B263B]/10 transition-colors"
-                                                >
-                                                    {field}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Expertise */}
-                                    <div>
-                                        <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">
-                                            Expertise
-                                        </h4>
-                                        <div className="flex flex-wrap gap-2">
-                                            {researcher.expertise.map((skill, idx) => (
-                                                <span
-                                                    key={idx}
-                                                    className="px-3 py-1.5 bg-amber-50 text-amber-700 text-sm font-medium rounded-lg border border-amber-100 hover:bg-amber-100 transition-colors"
-                                                >
-                                                    {skill}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </motion.div>
-
-                                {/* Metrics */}
-                                <motion.div
-                                    variants={itemVariants}
-                                    className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8"
-                                >
-                                    {metrics.map((metric, idx) => (
-                                        <div
-                                            key={idx}
-                                            className="group relative bg-slate-50 rounded-2xl p-4 border border-slate-100 hover:border-amber-200 hover:bg-amber-50/30 transition-all duration-300"
-                                        >
-                                            <div className="flex items-center gap-3 mb-2">
-                                                <div className="p-2 bg-white rounded-xl shadow-sm group-hover:shadow-md transition-shadow">
-                                                    <metric.icon className="w-4 h-4 text-[#950E1D]" />
-                                                </div>
-                                            </div>
-                                            <div className="text-2xl font-bold text-[#1B263B]">
-                                                {metric.value}
-                                            </div>
-                                            <div className="text-xs text-slate-500 font-medium">
-                                                {metric.label}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </motion.div>
-
-                                {/* Buttons */}
-                                <motion.div variants={itemVariants} className="flex flex-wrap gap-3">
-                                    <Button
-                                        asChild
-                                        variant="crimson"
-                                        className="rounded-xl h-11 px-6 gap-2 group"
+                            {/* Metrics */}
+                            <motion.div
+                                variants={itemVariants}
+                                className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8"
+                            >
+                                {metrics.map((metric, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="group relative bg-slate-50 rounded-2xl p-4 border border-slate-100 hover:border-amber-200 hover:bg-amber-50/30 transition-all duration-300"
                                     >
-                                        <Link href="#">
-                                            View Full Profile
-                                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                                        </Link>
-                                    </Button>
-                                </motion.div>
-                            </div>
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <div className="p-2 bg-white rounded-xl shadow-sm group-hover:shadow-md transition-shadow">
+                                                <metric.icon className="w-4 h-4 text-[#950E1D]" />
+                                            </div>
+                                        </div>
+                                        <div className="text-2xl font-bold text-[#1B263B]">
+                                            {metric.value}
+                                        </div>
+                                        <div className="text-xs text-slate-500 font-medium">
+                                            {metric.label}
+                                        </div>
+                                    </div>
+                                ))}
+                            </motion.div>
+
+                            {/* Buttons */}
+                            <motion.div variants={itemVariants} className="flex flex-wrap gap-3">
+                                <Button
+                                    asChild
+                                    variant="crimson"
+                                    className="rounded-xl h-11 px-6 gap-2 group"
+                                >
+                                    <Link href="#">
+                                        View Full Profile
+                                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                                    </Link>
+                                </Button>
+                            </motion.div>
                         </div>
                     </div>
                 </motion.div>

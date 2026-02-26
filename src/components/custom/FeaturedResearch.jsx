@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +14,7 @@ import {
     Quote,
     TrendingUp,
     Sparkles,
+    User,
 } from "lucide-react";
 
 const containerVariants = {
@@ -38,43 +40,8 @@ const itemVariants = {
     },
 };
 
-const featuredResearchPapers = [
-    {
-        title: "AI-Driven Urban Flood Prediction Models",
-        authors: ["Dr. Alex Johnson", "Dr. Jane Smith"],
-        journalName: "Journal of Environmental Modeling",
-        year: 2023,
-        highlights:
-            "Introduces a novel ML-based model to predict urban flooding with 90% accuracy.",
-        doi: "10.1234/jem.2023.001",
-        fullPaperLink: "https://example.com/fullpaper1.pdf",
-        citations: 120,
-    },
-    {
-        title: "Sustainable Smart Cities: A GIS Approach",
-        authors: ["Dr. Jane Smith", "Dr. Michael Lee"],
-        journalName: "International Journal of Urban Planning",
-        year: 2022,
-        highlights:
-            "Demonstrates GIS-driven planning for optimizing green spaces and infrastructure resilience.",
-        doi: "10.5678/ijup.2022.045",
-        fullPaperLink: "https://example.com/fullpaper2.pdf",
-        citations: 95,
-    },
-    {
-        title: "Climate Adaptation Strategies for Coastal Cities",
-        authors: ["Dr. Emily Wong", "Dr. Alex Johnson"],
-        journalName: "Climate Resilience Journal",
-        year: 2021,
-        highlights:
-            "Proposes actionable strategies for coastal cities to adapt to rising sea levels and extreme weather.",
-        doi: "10.9012/crj.2021.078",
-        fullPaperLink: "https://example.com/fullpaper3.pdf",
-        citations: 150,
-    },
-];
 
-const FeaturedResearch = () => {
+const FeaturedResearch = ({ featuredResearchPapers }) => {
     return (
         <section className="relative py-16 lg:py-24 bg-white overflow-hidden">
             {/* Subtle Background Pattern */}
@@ -124,70 +91,115 @@ const FeaturedResearch = () => {
                             {/* Card Top Accent */}
                             <div className="h-1 bg-gradient-to-r from-[#950E1D] via-[#B01124] to-[#950E1D]" />
 
-                            <div className="p-5 sm:p-6">
-                                {/* Title Row */}
-                                <div className="flex items-start gap-3 mb-3">
-                                    <div className="flex-shrink-0 p-2 bg-[#950E1D]/10 rounded-xl mt-0.5">
-                                        <FileText className="w-5 h-5 text-[#950E1D]" />
+                            <div className="flex flex-col sm:flex-row">
+                                {/* Researcher Image - Left Side */}
+                                <div className="relative w-full sm:w-48 lg:w-56 flex-shrink-0">
+                                    <div className="relative h-48 sm:h-full min-h-[200px] sm:min-h-full bg-gradient-to-br from-slate-100 to-slate-200">
+                                        {paper.researcherImage || paper.profilePicture ? (
+                                            <Image
+                                                src={paper.researcherImage || paper.profilePicture}
+                                                alt={paper.authors?.[0] || "Researcher"}
+                                                fill
+                                                className="object-cover object-top"
+                                                sizes="(max-width: 640px) 100vw, 224px"
+                                            />
+                                        ) : (
+                                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1B263B] to-[#2d3d5c]">
+                                                <div className="text-center">
+                                                    <div className="w-16 h-16 mx-auto mb-2 rounded-full bg-white/10 flex items-center justify-center">
+                                                        <User className="w-8 h-8 text-white/60" />
+                                                    </div>
+                                                    <span className="text-white/60 text-sm font-medium">
+                                                        {paper.authors?.[0]?.split(" ")?.[0] || "Researcher"}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        )}
+                                        {/* Gradient Overlay for text readability on mobile */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent sm:bg-gradient-to-r" />
                                     </div>
-                                    <h3 className="text-lg sm:text-xl font-bold text-[#1B263B] leading-snug group-hover:text-[#950E1D] transition-colors">
-                                        {paper.title}
-                                    </h3>
-                                </div>
-
-                                {/* Meta Info Row - Inline */}
-                                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4 text-sm">
-                                    <div className="flex items-center gap-1.5 text-slate-600">
-                                        <Users className="w-3.5 h-3.5 text-[#950E1D]" />
-                                        <span>{paper.authors.join(", ")}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5 text-slate-600">
-                                        <BookOpen className="w-3.5 h-3.5 text-[#950E1D]" />
-                                        <span>{paper.journalName}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5 text-slate-600">
-                                        <Calendar className="w-3.5 h-3.5 text-[#950E1D]" />
-                                        <span>{paper.year}</span>
-                                    </div>
-                                </div>
-
-                                {/* Highlights */}
-                                <div className="flex items-start gap-2 mb-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
-                                    <Quote className="w-4 h-4 text-[#950E1D] flex-shrink-0 mt-0.5" />
-                                    <p className="text-sm text-slate-600 leading-relaxed">
-                                        {paper.highlights}
-                                    </p>
-                                </div>
-
-                                {/* Bottom Row: DOI, Citations, Button */}
-                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                                    <div className="flex flex-wrap items-center gap-4">
-                                        <span className="text-xs text-slate-400 font-mono">
-                                            DOI: {paper.doi}
-                                        </span>
-                                        <div className="flex items-center gap-1.5 text-sm">
-                                            <TrendingUp className="w-3.5 h-3.5 text-[#950E1D]" />
-                                            <span className="text-slate-600">
-                                                <span className="font-semibold text-[#1B263B]">{paper.citations}</span> Citations
+                                    
+                                    {/* Author Badge */}
+                                    <div className="absolute bottom-3 left-3 right-3 sm:right-auto">
+                                        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full text-xs font-medium text-[#1B263B] shadow-lg">
+                                            <div className="w-5 h-5 rounded-full bg-[#950E1D]/10 flex items-center justify-center flex-shrink-0">
+                                                <span className="text-[#950E1D] text-[10px] font-bold">
+                                                    {paper.authors?.[0]?.charAt(0)}
+                                                </span>
+                                            </div>
+                                            <span className="truncate max-w-[120px]">
+                                                {paper.authors?.[0]}
                                             </span>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <Button
-                                        asChild
-                                        variant="crimson"
-                                        size="sm"
-                                        className="rounded-lg gap-1.5 group/btn w-full sm:w-auto h-9"
-                                    >
-                                        <Link
-                                            href={paper.fullPaperLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
+                                {/* Paper Content - Right Side */}
+                                <div className="flex-1 p-5 sm:p-6">
+                                    {/* Title Row */}
+                                    <div className="flex items-start gap-3 mb-3">
+                                        <div className="flex-shrink-0 p-2 bg-[#950E1D]/10 rounded-xl mt-0.5">
+                                            <FileText className="w-5 h-5 text-[#950E1D]" />
+                                        </div>
+                                        <h3 className="text-lg sm:text-xl font-bold text-[#1B263B] leading-snug group-hover:text-[#950E1D] transition-colors">
+                                            {paper.title}
+                                        </h3>
+                                    </div>
+
+                                    {/* Meta Info Row - Inline */}
+                                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4 text-sm">
+                                        <div className="flex items-center gap-1.5 text-slate-600">
+                                            <Users className="w-3.5 h-3.5 text-[#950E1D]" />
+                                            <span>{paper.authors.join(", ")}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-slate-600">
+                                            <BookOpen className="w-3.5 h-3.5 text-[#950E1D]" />
+                                            <span>{paper.journalName}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-slate-600">
+                                            <Calendar className="w-3.5 h-3.5 text-[#950E1D]" />
+                                            <span>{paper.year}</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Highlights */}
+                                    <div className="flex items-start gap-2 mb-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                                        <Quote className="w-4 h-4 text-[#950E1D] flex-shrink-0 mt-0.5" />
+                                        <p className="text-sm text-slate-600 leading-relaxed">
+                                            {paper.highlights}
+                                        </p>
+                                    </div>
+
+                                    {/* Bottom Row: DOI, Citations, Button */}
+                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                        <div className="flex flex-wrap items-center gap-4">
+                                            <span className="text-xs text-slate-400 font-mono">
+                                                DOI: {paper.doi}
+                                            </span>
+                                            <div className="flex items-center gap-1.5 text-sm">
+                                                <TrendingUp className="w-3.5 h-3.5 text-[#950E1D]" />
+                                                <span className="text-slate-600">
+                                                    <span className="font-semibold text-[#1B263B]">{paper.citations}</span> Citations
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <Button
+                                            asChild
+                                            variant="crimson"
+                                            size="sm"
+                                            className="rounded-lg gap-1.5 group/btn w-full sm:w-auto h-9"
                                         >
-                                            Read Paper
-                                            <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-                                        </Link>
-                                    </Button>
+                                            <Link
+                                                href={paper.fullPaperLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                Read Paper
+                                                <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                                            </Link>
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </motion.article>
@@ -205,7 +217,7 @@ const FeaturedResearch = () => {
                     <Button
                         asChild
                         variant="orange"
-                        //className="rounded-lg h-10 px-6 border-slate-200 text-slate-700 hover:border-[#950E1D] hover:text-[#950E1D] hover:bg-[#950E1D]/5 transition-all duration-300"
+                    //className="rounded-lg h-10 px-6 border-slate-200 text-slate-700 hover:border-[#950E1D] hover:text-[#950E1D] hover:bg-[#950E1D]/5 transition-all duration-300"
                     >
                         <Link href="/research">View All Papers</Link>
                     </Button>

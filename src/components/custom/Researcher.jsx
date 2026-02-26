@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import ProfileTabs from "./ProfileTabs";
 import {
   FileText,
   Link2,
@@ -73,6 +72,72 @@ const sectionVariants = {
       duration: 0.2,
     },
   },
+};
+
+// Tab Navigation Component
+const ProfileTabs = ({ activeTab, onTabChange }) => {
+  const tabs = [
+    { id: "education", label: "Education", icon: GraduationCap },
+    { id: "publications", label: "Publications", icon: BookOpen },
+    { id: "experience", label: "Experience", icon: Briefcase },
+    { id: "expertise", label: "Expertise", icon: Target },
+    { id: "achievements", label: "Achievements", icon: Trophy },
+    { id: "profiles", label: "Profiles", icon: Globe },
+    { id: "contact", label: "Contact", icon: Mail },
+  ];
+
+  return (
+    <div className="relative w-full">
+      {/* Left Fade */}
+      <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+      
+      {/* Right Fade */}
+      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+
+      {/* Tabs Container */}
+      <div className="flex gap-1 overflow-x-auto scrollbar-hide py-1 px-1 scroll-smooth">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+
+          return (
+            <button
+              key={tab.id}
+              onClick={() => onTabChange(tab.id)}
+              className={`relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 flex-shrink-0 ${
+                isActive
+                  ? "text-white"
+                  : "text-slate-600 hover:text-[#950E1D] hover:bg-[#950E1D]/5"
+              }`}
+            >
+              {isActive && (
+                <motion.div
+                  layoutId="activeProfileTabBg"
+                  className="absolute inset-0 bg-[#950E1D] rounded-xl"
+                  initial={false}
+                  transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                />
+              )}
+              <span className="relative z-10">
+                <Icon className={`w-4 h-4 ${isActive ? "scale-110" : ""}`} />
+              </span>
+              <span className="relative z-10">{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+    </div>
+  );
 };
 
 export default function ResearcherProfile({ user }) {
@@ -213,7 +278,7 @@ export default function ResearcherProfile({ user }) {
                   asChild
                   variant="ghost"
                   size="sm"
-                  className="text-[#950E1D] hover:text-[#950E1D] hover:bg-[#950E1D]/5 gap-1.5"
+                  className="text-[#950E1D] hover:text-[#950E1D] hover:bg-[#950E1D]/5 gap-1 h-7 text-xs px-2"
                 >
                   <Link href={paper.fullPaperLink} target="_blank">
                     Full paper
@@ -319,7 +384,7 @@ export default function ResearcherProfile({ user }) {
         className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm shadow-slate-200/50 border border-slate-100"
       >
         <div className="flex flex-wrap gap-3">
-          {(user.expertise || []).map((item, idx) => (
+          {(user.expertise || []).map((item) => (
             <motion.span
               key={item}
               variants={itemVariants}
@@ -659,7 +724,7 @@ export default function ResearcherProfile({ user }) {
         }}
       />
 
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         {/* Back Navigation */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -679,7 +744,7 @@ export default function ResearcherProfile({ user }) {
           </Button>
         </motion.div>
 
-        {/* Profile Header Card */}
+        {/* Profile Header Card with Left Image */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -689,100 +754,120 @@ export default function ResearcherProfile({ user }) {
           {/* Top Accent Bar */}
           <div className="h-1.5 bg-gradient-to-r from-[#950E1D] via-[#B01124] to-[#950E1D]" />
 
-          <div className="p-5 lg:p-8">
-            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-              {/* Profile Image */}
-              <div className="flex-shrink-0">
-                <div className="relative w-28 h-28 lg:w-36 lg:h-36 mx-auto lg:mx-0">
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl lg:rounded-3xl transform rotate-3 opacity-20" />
-                  <div className="relative w-full h-full rounded-2xl lg:rounded-3xl overflow-hidden border-4 border-white shadow-xl">
-                    <Image
-                      src={user.profilePicture || "/placeholder-avatar.png"}
-                      alt={`${user.firstName || ""} ${user.lastName || ""}`}
-                      fill
-                      sizes="(max-width: 1024px) 112px, 144px"
-                      className="object-cover"
-                      priority
-                    />
+          <div className="flex flex-col lg:flex-row">
+            {/* Left: Full Researcher Image */}
+            <div className="relative w-full lg:w-80 xl:w-96 flex-shrink-0">
+              <div className="relative h-[420px] sm:h-[480px] lg:h-[520px] xl:h-[560px]">
+                {user.profilePicture ? (
+                  <Image
+                    src={user.profilePicture}
+                    alt={`${user.firstName || ""} ${user.lastName || ""}`}
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 1024px) 100vw, 384px"
+                    priority
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1B263B] to-[#2d3d5c]">
+                    <div className="text-center">
+                      <div className="w-20 h-20 mx-auto mb-3 rounded-full bg-white/10 flex items-center justify-center">
+                        <User className="w-10 h-10 text-white/60" />
+                      </div>
+                      <span className="text-white/60 text-lg font-medium">
+                        {user.firstName || "Researcher"}
+                      </span>
+                    </div>
                   </div>
-                  <div className="absolute -bottom-2 -right-2 bg-amber-500 text-white p-1.5 lg:p-2 rounded-lg lg:rounded-xl shadow-lg">
-                    <Award className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
+                )}
+                
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/10" />
+                
+                {/* Researcher Badge */}
+                <div className="absolute top-4 left-4">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#950E1D] text-white rounded-xl text-xs font-semibold shadow-lg">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    Researcher
                   </div>
                 </div>
-              </div>
 
-              {/* Profile Info */}
-              <div className="flex-1 text-center lg:text-left">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#950E1D]/5 border border-[#950E1D]/10 text-[#950E1D] text-xs font-medium mb-3">
-                  <Sparkles className="w-3 h-3" />
-                  Researcher Profile
+                {/* Name Card at Bottom */}
+                <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6">
+                  <div className="p-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg">
+                    <h1 className="text-xl lg:text-2xl font-bold text-[#1B263B] mb-1">
+                      {user.firstName} {user.lastName}
+                    </h1>
+                    {user.fieldOfResearch && (
+                      <span className="px-2.5 py-1 bg-amber-50 text-amber-700 text-xs font-medium rounded-full border border-amber-100">
+                        {user.fieldOfResearch}
+                      </span>
+                    )}
+                  </div>
                 </div>
-
-                <h1 className="text-2xl lg:text-4xl font-bold text-[#1B263B] mb-2">
-                  {user.firstName} {user.lastName}
-                </h1>
-
-                {user.fieldOfResearch && (
-                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-3">
-                    <span className="px-3 py-1 bg-[#1B263B]/5 text-[#1B263B] text-sm font-medium rounded-full border border-[#1B263B]/10">
-                      {user.fieldOfResearch}
-                    </span>
-                  </div>
-                )}
-
-                {user.institution && (
-                  <div className="flex items-center justify-center lg:justify-start gap-1.5 text-slate-500 mb-3 text-sm">
-                    <Building2 className="w-4 h-4 text-[#950E1D]" />
-                    <span>{user.institution}</span>
-                  </div>
-                )}
-
-                <p className="text-slate-600 text-sm lg:text-base leading-relaxed max-w-2xl">
-                  {user.bio}
-                </p>
-
-                {/* Quick Contact */}
-                {user.contact?.email && (
-                  <div className="flex items-center justify-center lg:justify-start gap-3 mt-4">
-                    <a
-                      href={`mailto:${user.contact.email}`}
-                      className="inline-flex items-center gap-1.5 text-xs text-[#950E1D] hover:underline"
-                    >
-                      <Mail className="w-3.5 h-3.5" />
-                      {user.contact.email}
-                    </a>
-                  </div>
-                )}
               </div>
             </div>
-          </div>
-        </motion.div>
 
-        {/* Metrics Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4 mb-6"
-        >
-          {metrics.map((metric, idx) => (
-            <motion.div
-              key={idx}
-              variants={itemVariants}
-              className="group bg-white rounded-xl lg:rounded-2xl p-4 lg:p-5 shadow-sm shadow-slate-200/50 border border-slate-100 text-center hover:shadow-md hover:border-[#950E1D]/20 transition-all duration-300"
-            >
-              <div className="inline-flex items-center justify-center p-2 bg-[#950E1D]/10 rounded-lg lg:rounded-xl mb-2 group-hover:bg-[#950E1D]/20 transition-colors">
-                <metric.icon className="w-4 h-4 lg:w-5 lg:h-5 text-[#950E1D]" />
+            {/* Right: Profile Info */}
+            <div className="flex-1 p-5 lg:p-8">
+              {/* Badge */}
+              <div className="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#950E1D]/5 border border-[#950E1D]/10 text-[#950E1D] text-xs font-medium mb-4">
+                <Sparkles className="w-3 h-3" />
+                Researcher Profile
               </div>
-              <div className="text-xl lg:text-2xl font-bold text-[#1B263B] mb-0.5">
-                {metric.value}
-              </div>
-              <div className="text-[10px] lg:text-xs text-slate-500 uppercase tracking-wide">
-                {metric.label}
-              </div>
-            </motion.div>
-          ))}
+
+              {/* Institution */}
+              {user.institution && (
+                <div className="flex items-center gap-2 text-slate-500 mb-4">
+                  <Building2 className="w-4 h-4 text-[#950E1D]" />
+                  <span className="text-sm">{user.institution}</span>
+                </div>
+              )}
+
+              {/* Bio */}
+              <p className="text-slate-600 leading-relaxed text-sm lg:text-base mb-6">
+                {user.bio}
+              </p>
+
+              {/* Quick Contact */}
+              {user.contact?.email && (
+                <div className="flex items-center gap-2 mb-6">
+                  <Mail className="w-4 h-4 text-[#950E1D]" />
+                  <a
+                    href={`mailto:${user.contact.email}`}
+                    className="text-sm text-slate-600 hover:text-[#950E1D] transition-colors"
+                  >
+                    {user.contact.email}
+                  </a>
+                </div>
+              )}
+
+              {/* Metrics Grid - Inside Card */}
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3"
+              >
+                {metrics.map((metric, idx) => (
+                  <motion.div
+                    key={idx}
+                    variants={itemVariants}
+                    className="group bg-slate-50 rounded-xl p-3 border border-slate-100 text-center hover:bg-white hover:shadow-sm hover:border-[#950E1D]/20 transition-all duration-300"
+                  >
+                    <div className="inline-flex items-center justify-center p-1.5 bg-[#950E1D]/10 rounded-lg mb-1.5 group-hover:bg-[#950E1D]/20 transition-colors">
+                      <metric.icon className="w-3.5 h-3.5 text-[#950E1D]" />
+                    </div>
+                    <div className="text-lg font-bold text-[#1B263B] mb-0.5">
+                      {metric.value}
+                    </div>
+                    <div className="text-[10px] text-slate-500 uppercase tracking-wide">
+                      {metric.label}
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
         </motion.div>
 
         {/* Tab Navigation */}
