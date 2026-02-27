@@ -2,6 +2,7 @@ import ResearcherProfile from "@/components/custom/Researcher";
 import dbConnect from "@/lib/db";
 import User from "@/lib/models/User";
 
+export const revalidate = 120; 
 
 export default async function ScholarProfilePage({ params }) {
   const { username } = await params;

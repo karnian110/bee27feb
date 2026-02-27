@@ -2,6 +2,8 @@ import ScholarsList from "@/components/custom/ScholarList";
 import User from "@/lib/models/User";
 import dbConnect from "@/lib/db";
 
+export const revalidate = 120; 
+
 export default async function Home() {
   try {
     // Connect to the database

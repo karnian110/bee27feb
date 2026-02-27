@@ -3,6 +3,8 @@ import Team from '@/lib/models/Teams';
 import User from '@/lib/models/User'; // Import User model for collection name
 import dbConnect from "@/lib/db";
 
+export const revalidate = 120; 
+
 export default async function Home() {
   try {
     // Ensure database connection is established

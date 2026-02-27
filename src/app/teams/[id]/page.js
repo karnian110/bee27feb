@@ -4,6 +4,8 @@ import dbConnect from '@/lib/db';
 import Team from '@/lib/models/Teams';
 import TeamDetails from '@/components/custom/TeamDetails'; // adjust the import path as needed
 
+export const revalidate = 120; 
+
 export default async function ScholarProfilePage({ params }) {
   try {
     // Safely extract the id – works in both Next.js 15 (params is a promise) and older versions
