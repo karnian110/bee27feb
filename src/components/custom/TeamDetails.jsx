@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,6 +31,8 @@ import {
   Building2,
   Crown,
   UserPlus,
+  Edit,
+  Settings,
 } from "lucide-react";
 
 const containerVariants = {
@@ -142,7 +144,31 @@ const TeamTabs = ({ activeTab, onTabChange }) => {
 
 export default function TeamDetails({ user: team }) {
   const [activeTab, setActiveTab] = useState("overview");
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isOwner, setIsOwner] = useState(false);
   const researchProfile = team?.researchProfile || {};
+
+  // Check if current user is the team owner
+  useEffect(() => {
+    const checkOwnership = async () => {
+      try {
+        const res = await fetch("/api/auth/me");
+        if (res.ok) {
+          const data = await res.json();
+          setCurrentUser(data.user);
+          // Check if current user is the team owner
+          if (data.user && team?.owner?.userId) {
+            setIsOwner(data.user.userId === team.owner.userId);
+          } else if (data.user && team?.owner?._id) {
+            setIsOwner(data.user.userId === team.owner._id.toString());
+          }
+        }
+      } catch (error) {
+        console.error("Error checking ownership:", error);
+      }
+    };
+    checkOwnership();
+  }, [team]);
 
   const metrics = [
     { icon: Users, label: "Members", value: (team.members || []).length + 1 },
@@ -776,6 +802,26 @@ export default function TeamDetails({ user: team }) {
                       <Mail className="w-3.5 h-3.5" />
                       {team.email}
                     </a>
+                  </div>
+                )}
+
+                {/* Owner Actions */}
+                {isOwner && (
+                  <div className="flex items-center justify-center lg:justify-start gap-3 mt-4">
+                    <Link
+                      href={`/u/teams/${team.id || team._id}/edit`}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-[#950E1D] text-white text-sm font-medium rounded-xl hover:bg-[#7a0c18] transition-colors"
+                    >
+                      <Edit className="w-4 h-4" />
+                      Edit Team
+                    </Link>
+                    <Link
+                      href="/u/my-teams"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 text-sm font-medium rounded-xl hover:bg-slate-200 transition-colors"
+                    >
+                      <Settings className="w-4 h-4" />
+                      Manage Teams
+                    </Link>
                   </div>
                 )}
               </div>

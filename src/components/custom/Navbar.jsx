@@ -107,7 +107,7 @@ export default function Navbar() {
                         variant="crimson"
                         className='text-white'
                     >
-                        <Link href="/join">
+                        <Link href="/login">
                             <UserPlus className="h-5 w-5 mr-2" />
                             Join Now
                         </Link>

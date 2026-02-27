@@ -41,6 +41,8 @@ const itemVariants = {
 };
 
 const FeaturedResearcher = ({ researcher }) => {
+    const [imageError, setImageError] = React.useState(false);
+
     const metrics = [
         { icon: FileText, value: researcher.papersPublished, label: "Papers" },
         { icon: Link2, value: researcher.citations, label: "Citations" },
@@ -106,7 +108,7 @@ const FeaturedResearcher = ({ researcher }) => {
                         >
                             <div className="relative h-80 lg:h-full min-h-[320px] lg:min-h-full">
                                 {/* Background Gradient or Image */}
-                                {researcher.profilePicture ? (
+                                {researcher.profilePicture && !imageError ? (
                                     <Image
                                         src={researcher.profilePicture}
                                         alt={researcher.name}
@@ -114,6 +116,8 @@ const FeaturedResearcher = ({ researcher }) => {
                                         className="object-cover object-top"
                                         sizes="(max-width: 1024px) 100vw, 384px"
                                         priority
+                                        unoptimized={researcher.profilePicture?.includes('example.com')}
+                                        onError={() => setImageError(true)}
                                     />
                                 ) : (
                                     <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1B263B] to-[#2d3d5c]">

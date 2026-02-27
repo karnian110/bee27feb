@@ -16,17 +16,17 @@ const footerSections = {
   company: {
     title: "Company",
     links: [
-      { label: "About Us", href: "/about" },
-      { label: "Blog", href: "/blog" },
-      { label: "Careers", href: "/careers" },
+      { label: "About Us", href: "/support/contact" },
+      { label: "Blog", href: "/support/contact" },
+      { label: "Careers", href: "/support/contact" },
     ],
   },
   support: {
     title: "Support",
     links: [
-      { label: "Contact", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
+      { label: "Contact", href: "/support/contact" },
+      { label: "Privacy Policy", href: "/support/privacy" },
+      { label: "Terms of Service", href: "/support/terms" },
     ],
   },
 };
@@ -143,8 +143,8 @@ export default function Footer() {
                   {section.title}
                 </h3>
                 <ul className="flex flex-col gap-2.5">
-                  {section.links.map((link) => (
-                    <li key={link.href}>
+                  {section.links.map((link, index) => (
+                    <li key={`${key}-${index}`}>
                       <Link
                         href={link.href}
                         className="group flex items-center gap-1 text-white/60 hover:text-white text-sm transition-colors duration-200"
@@ -209,25 +209,25 @@ export default function Footer() {
           
           <div className="flex items-center gap-6">
             <Link 
-              href="/privacy" 
+              href="/support/privacy" 
               className="text-white/50 hover:text-white/80 text-sm transition-colors"
             >
               Privacy
             </Link>
             <Link 
-              href="/terms" 
+              href="/support/terms" 
               className="text-white/50 hover:text-white/80 text-sm transition-colors"
             >
               Terms
             </Link>
             <Link 
-              href="/contact" 
+              href="/support/contact" 
               className="text-white/50 hover:text-white/80 text-sm transition-colors"
             >
               Contact
             </Link>
             <a 
-              href="#"
+              href="/support/contact"
               className="inline-flex items-center gap-1 text-white/50 hover:text-amber-400 text-sm transition-colors"
             >
               Status

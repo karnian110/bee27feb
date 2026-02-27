@@ -41,112 +41,7 @@ const itemVariants = {
     },
 };
 
-const researchers = [
-    {
-        name: "Dr. Alex Johnson",
-        profilePicture: "https://via.placeholder.com/150",
-        title: "Associate Professor",
-        institution: "International Tech University",
-        location: "San Francisco, USA",
-        bio: "AI-driven environmental solutions and smart city planning.",
-        fieldOfResearch: ["Environmental Science", "Smart Cities"],
-        papersPublished: 32,
-        citations: 890,
-        hIndex: 15,
-        username: "alex-johnson",
-    },
-    {
-        name: "Dr. Maria Gonzalez",
-        profilePicture: "https://via.placeholder.com/150",
-        title: "Professor",
-        institution: "Global University of Technology",
-        location: "Barcelona, Spain",
-        bio: "Renewable energy systems and sustainable engineering.",
-        fieldOfResearch: ["Renewable Energy", "Smart Grids"],
-        papersPublished: 48,
-        citations: 1250,
-        hIndex: 22,
-        username: "maria-gonzalez",
-    },
-    {
-        name: "Dr. Liam Patel",
-        profilePicture: "https://via.placeholder.com/150",
-        title: "Assistant Professor",
-        institution: "Metropolitan Institute of Technology",
-        location: "Mumbai, India",
-        bio: "Urban transportation and AI-based traffic optimization.",
-        fieldOfResearch: ["Transportation", "Urban Planning"],
-        papersPublished: 27,
-        citations: 620,
-        hIndex: 13,
-        username: "liam-patel",
-    },
-    {
-        name: "Dr. Sophie Müller",
-        profilePicture: "https://via.placeholder.com/150",
-        title: "Senior Researcher",
-        institution: "European Institute of Environmental Studies",
-        location: "Berlin, Germany",
-        bio: "Climate adaptation strategies and sustainable policies.",
-        fieldOfResearch: ["Climate Change", "Sustainability"],
-        papersPublished: 40,
-        citations: 1025,
-        hIndex: 19,
-        username: "sophie-muller",
-    },
-    {
-        name: "Dr. Ethan Kim",
-        profilePicture: "https://via.placeholder.com/150",
-        title: "Lecturer",
-        institution: "Asia-Pacific University of Science & Tech",
-        location: "Seoul, South Korea",
-        bio: "AI applications in water management and environmental monitoring.",
-        fieldOfResearch: ["Water Resources", "AI Applications"],
-        papersPublished: 22,
-        citations: 450,
-        hIndex: 11,
-        username: "ethan-kim",
-    },
-    {
-        name: "Dr. Sarah Chen",
-        profilePicture: "https://via.placeholder.com/150",
-        title: "Research Scientist",
-        institution: "National Research Institute",
-        location: "Singapore",
-        bio: "Computational biology and bioinformatics research.",
-        fieldOfResearch: ["Bioinformatics", "Genomics"],
-        papersPublished: 35,
-        citations: 780,
-        hIndex: 16,
-        username: "sarah-chen",
-    },
-    {
-        name: "Dr. James Wilson",
-        profilePicture: "https://via.placeholder.com/150",
-        title: "Associate Professor",
-        institution: "Cambridge Institute of Technology",
-        location: "Cambridge, UK",
-        bio: "Cybersecurity and privacy-preserving machine learning.",
-        fieldOfResearch: ["Cybersecurity", "Privacy"],
-        papersPublished: 41,
-        citations: 920,
-        hIndex: 18,
-        username: "james-wilson",
-    },
-    {
-        name: "Dr. Aisha Rahman",
-        profilePicture: "https://via.placeholder.com/150",
-        title: "Professor",
-        institution: "University of Engineering & Technology",
-        location: "Dhaka, Bangladesh",
-        bio: "Robotics and autonomous systems for industrial applications.",
-        fieldOfResearch: ["Robotics", "Automation"],
-        papersPublished: 55,
-        citations: 1580,
-        hIndex: 25,
-        username: "aisha-rahman",
-    },
-];
+
 
 const getInitials = (name) => {
     return name
@@ -165,7 +60,7 @@ const getGradient = (index) => {
     return gradients[index % gradients.length];
 };
 
-const ScholarsList = () => {
+const ScholarsList = ({researchers}) => {
     return (
         <section className="relative py-24 lg:py-32 bg-white overflow-hidden">
             {/* Background Elements */}

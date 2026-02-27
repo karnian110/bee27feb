@@ -127,7 +127,7 @@ export default function MobileMenu({ menuItems = [] }) {
                 onClick={() => setIsOpen(false)}
                 asChild
               >
-                <Link href="/join">
+                <Link href="/login">
                   <UserPlus className="mr-2 h-5 w-5" />
                   Join Now
                 </Link>

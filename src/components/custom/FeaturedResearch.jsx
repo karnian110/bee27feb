@@ -42,6 +42,12 @@ const itemVariants = {
 
 
 const FeaturedResearch = ({ featuredResearchPapers }) => {
+    const [imageErrors, setImageErrors] = React.useState({});
+
+    const handleImageError = (idx) => {
+        setImageErrors(prev => ({ ...prev, [idx]: true }));
+    };
+
     return (
         <section className="relative py-16 lg:py-24 bg-white overflow-hidden">
             {/* Subtle Background Pattern */}
@@ -95,13 +101,15 @@ const FeaturedResearch = ({ featuredResearchPapers }) => {
                                 {/* Researcher Image - Left Side */}
                                 <div className="relative w-full sm:w-48 lg:w-56 flex-shrink-0">
                                     <div className="relative h-48 sm:h-full min-h-[200px] sm:min-h-full bg-gradient-to-br from-slate-100 to-slate-200">
-                                        {paper.researcherImage || paper.profilePicture ? (
+                                        {(paper.researcherImage || paper.profilePicture) && !imageErrors[idx] ? (
                                             <Image
                                                 src={paper.researcherImage || paper.profilePicture}
                                                 alt={paper.authors?.[0] || "Researcher"}
                                                 fill
                                                 className="object-cover object-top"
                                                 sizes="(max-width: 640px) 100vw, 224px"
+                                                unoptimized={(paper.researcherImage || paper.profilePicture)?.includes('example.com')}
+                                                onError={() => handleImageError(idx)}
                                             />
                                         ) : (
                                             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1B263B] to-[#2d3d5c]">
@@ -217,7 +225,6 @@ const FeaturedResearch = ({ featuredResearchPapers }) => {
                     <Button
                         asChild
                         variant="orange"
-                    //className="rounded-lg h-10 px-6 border-slate-200 text-slate-700 hover:border-[#950E1D] hover:text-[#950E1D] hover:bg-[#950E1D]/5 transition-all duration-300"
                     >
                         <Link href="/research">View All Papers</Link>
                     </Button>

@@ -39,53 +39,7 @@ const itemVariants = {
     },
 };
 
-const researchTeams = [
-    {
-        name: "AI for Sustainability",
-        teamLead: "Dr. Alex Johnson",
-        profilePicture: "https://via.placeholder.com/150",
-        moto: "Innovating for a greener future",
-        aboutTeam: "We develop AI-driven solutions for environmental challenges, focusing on smart city planning and sustainable urban development.",
-        fieldOfResearch: ["Environmental Science", "Smart Cities", "AI/ML"],
-        memberCount: 8,
-        papersPublished: 32,
-        teamreference: "ai-sustainability",
-    },
-    {
-        name: "Climate Resilience Lab",
-        teamLead: "Dr. Jane Smith",
-        profilePicture: "https://via.placeholder.com/150",
-        moto: "Building resilient communities",
-        moto: "Building resilient communities",
-        aboutTeam: "Predictive modeling for climate-resilient urban infrastructure and sustainable engineering solutions.",
-        fieldOfResearch: ["Environmental Engineering", "Urban Analytics", "Climate Modeling"],
-        memberCount: 12,
-        papersPublished: 45,
-        teamreference: "climate-resilience",
-    },
-    {
-        name: "Geotech Modeling Group",
-        teamLead: "Dr. Michael Lee",
-        profilePicture: "https://via.placeholder.com/150",
-        moto: "Engineering the earth beneath us",
-        aboutTeam: "Advanced numerical modeling and geotechnical risk assessment for complex infrastructure projects.",
-        fieldOfResearch: ["Geotechnical Engineering", "Numerical Modeling", "Risk Assessment"],
-        memberCount: 10,
-        papersPublished: 58,
-        teamreference: "geotech-modeling",
-    },
-    {
-        name: "ML for Climate Adaptation",
-        teamLead: "Dr. Emily Wong",
-        profilePicture: "https://via.placeholder.com/150",
-        moto: "Data-driven climate solutions",
-        aboutTeam: "Machine learning applications for climate adaptation, resilience planning, and environmental monitoring.",
-        fieldOfResearch: ["Climate Science", "Machine Learning", "Data Analytics"],
-        memberCount: 6,
-        papersPublished: 27,
-        teamreference: "ml-climate",
-    },
-];
+
 
 const getInitials = (name) => {
     return name
@@ -103,7 +57,7 @@ const getGradient = (index) => {
     return gradients[index % gradients.length];
 };
 
-const TeamsList = () => {
+const TeamsList = ({researchTeams}) => {
     return (
         <section className="relative py-24 lg:py-32 bg-white overflow-hidden">
             {/* Background Elements */}
@@ -202,12 +156,12 @@ const TeamsList = () => {
                                         {team.profilePicture ? (
                                             <img
                                                 src={team.profilePicture}
-                                                alt={team.teamLead}
+                                                alt={team.owner}
                                                 className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-2 border-white shadow-lg"
                                             />
                                         ) : (
                                             <div className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br ${getGradient(idx)} flex items-center justify-center text-white font-bold text-2xl shadow-lg`}>
-                                                {getInitials(team.name)}
+                                                {getInitials(team.teamName)}
                                             </div>
                                         )}
                                         <div className="absolute -bottom-2 -right-2 bg-white p-1.5 rounded-xl shadow-md">
@@ -218,13 +172,13 @@ const TeamsList = () => {
                                     {/* Team Info */}
                                     <div className="flex-1">
                                         <h3 className="text-xl sm:text-2xl font-bold text-[#1B263B] group-hover:text-[#950E1D] transition-colors duration-300 leading-tight mb-2">
-                                            {team.name}
+                                            {team.teamName}
                                         </h3>
                                         
                                         {/* Lead Badge */}
                                         <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 rounded-lg mb-3">
                                             <span className="text-xs text-slate-500">Led by</span>
-                                            <span className="text-sm font-semibold text-[#1B263B]">{team.teamLead}</span>
+                                            <span className="text-sm font-semibold text-[#1B263B]">{team.owner}</span>
                                         </div>
 
                                         {/* Moto */}
@@ -238,7 +192,7 @@ const TeamsList = () => {
                                 {/* About Team */}
                                 <div className="mb-6 p-4 bg-slate-50 rounded-2xl border border-slate-100">
                                     <p className="text-slate-600 leading-relaxed">
-                                        {team.aboutTeam}
+                                        {team.about}
                                     </p>
                                 </div>
 
@@ -282,7 +236,7 @@ const TeamsList = () => {
                                     variant="ghost"
                                     className="w-full rounded-xl bg-slate-50 hover:bg-[#950E1D] text-slate-700 hover:text-white transition-all duration-300 group/btn font-medium h-12"
                                 >
-                                    <Link href={`/teams/${team.teamreference}`} className="justify-between px-6">
+                                    <Link href={`/teams/${team.id}`} className="justify-between px-6">
                                         <span>Explore Team</span>
                                         <ChevronRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-1" />
                                     </Link>

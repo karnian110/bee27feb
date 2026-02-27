@@ -112,3 +112,9 @@ TeamSchema.index({ fieldOfResearch: 1, "researchProfile.citations": -1 });
 const Team = mongoose.models?.Team || mongoose.model("Team", TeamSchema);
 
 export default Team;
+
+
+
+
+
+
