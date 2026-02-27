@@ -115,7 +115,7 @@ export default function HeroSection() {
             <span className="text-white">Connecting Scholars,</span>
             <br />
             <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 bg-clip-text text-transparent">
-              Advancing Global Research---------------
+              Advancing Global Research
             </span>
           </motion.h1>
 
