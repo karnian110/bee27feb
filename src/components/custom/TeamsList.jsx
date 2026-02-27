@@ -155,7 +155,7 @@ const TeamsList = ({researchTeams}) => {
                                         <div className={`absolute inset-0 bg-gradient-to-br ${getGradient(idx)} rounded-2xl transform rotate-3 opacity-20 group-hover:rotate-6 transition-transform duration-500`} />
                                         {team.profilePicture ? (
                                             <img
-                                                src={team.profilePicture}
+                                                src={team.profilePicture || 'https://www.gravatar.com/avatar/?d=mp&f=y&r=pg&s=200&format=png'}
                                                 alt={team.owner}
                                                 className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-2 border-white shadow-lg"
                                             />

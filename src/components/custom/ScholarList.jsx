@@ -158,7 +158,7 @@ const ScholarsList = ({researchers}) => {
                                         <div className={`absolute inset-0 bg-gradient-to-br ${getGradient(idx)} rounded-2xl transform rotate-3 opacity-20 group-hover:rotate-6 transition-transform duration-500`} />
                                         {scholar.profilePicture ? (
                                             <img
-                                                src={scholar.profilePicture}
+                                                src={scholar.profilePicture || "https://www.gravatar.com/avatar/?d=mp&f=y&r=pg&s=200&format=png" }
                                                 alt={scholar.name}
                                                 className="relative w-16 h-16 rounded-2xl object-cover border-2 border-white shadow-md"
                                             />

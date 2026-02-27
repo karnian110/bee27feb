@@ -90,7 +90,7 @@ const ProfileTabs = ({ activeTab, onTabChange }) => {
     <div className="relative w-full">
       {/* Left Fade */}
       <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-      
+
       {/* Right Fade */}
       <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
@@ -104,11 +104,10 @@ const ProfileTabs = ({ activeTab, onTabChange }) => {
             <button
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
-              className={`relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 flex-shrink-0 ${
-                isActive
+              className={`relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 flex-shrink-0 ${isActive
                   ? "text-white"
                   : "text-slate-600 hover:text-[#950E1D] hover:bg-[#950E1D]/5"
-              }`}
+                }`}
             >
               {isActive && (
                 <motion.div
@@ -188,11 +187,10 @@ export default function ResearcherProfile({ user }) {
               <h3 className="font-semibold text-[#1B263B] text-base lg:text-lg">
                 {edu.degree}
               </h3>
-              <span className={`px-3 py-1 text-xs rounded-full font-medium w-fit ${
-                edu.ongoing 
-                  ? "bg-green-50 text-green-700 border border-green-100" 
+              <span className={`px-3 py-1 text-xs rounded-full font-medium w-fit ${edu.ongoing
+                  ? "bg-green-50 text-green-700 border border-green-100"
                   : "bg-slate-50 text-slate-600 border border-slate-100"
-              }`}>
+                }`}>
                 {edu.ongoing ? "Ongoing" : "Completed"}
               </span>
             </div>
@@ -323,11 +321,10 @@ export default function ResearcherProfile({ user }) {
               <h3 className="font-semibold text-[#1B263B] text-base lg:text-lg">
                 {job.jobTitle}
               </h3>
-              <span className={`px-3 py-1 text-xs rounded-full font-medium w-fit ${
-                job.ongoing 
-                  ? "bg-green-50 text-green-700 border border-green-100" 
+              <span className={`px-3 py-1 text-xs rounded-full font-medium w-fit ${job.ongoing
+                  ? "bg-green-50 text-green-700 border border-green-100"
                   : "bg-slate-50 text-slate-600 border border-slate-100"
-              }`}>
+                }`}>
                 {job.ongoing ? "Current" : "Past"}
               </span>
             </div>
@@ -760,7 +757,7 @@ export default function ResearcherProfile({ user }) {
               <div className="relative h-[420px] sm:h-[480px] lg:h-[520px] xl:h-[560px]">
                 {user.profilePicture ? (
                   <Image
-                    src={user.profilePicture}
+                    src={user.profilePicture || "https://www.gravatar.com/avatar/?d=mp&f=y&r=pg&s=200&format=png"}
                     alt={`${user.firstName || ""} ${user.lastName || ""}`}
                     fill
                     className="object-cover object-top"
@@ -779,10 +776,10 @@ export default function ResearcherProfile({ user }) {
                     </div>
                   </div>
                 )}
-                
+
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/10" />
-                
+
                 {/* Researcher Badge */}
                 <div className="absolute top-4 left-4">
                   <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#950E1D] text-white rounded-xl text-xs font-semibold shadow-lg">

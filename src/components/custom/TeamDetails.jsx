@@ -755,7 +755,7 @@ export default function TeamDetails({ user: team }) {
                   <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl lg:rounded-3xl transform rotate-3 opacity-20" />
                   <div className="relative w-full h-full rounded-2xl lg:rounded-3xl overflow-hidden border-4 border-white shadow-xl">
                     <Image
-                      src={team.profilePicture || "/placeholder-team.png"}
+                      src={team.profilePicture || "https://www.gravatar.com/avatar/?d=mp&f=y&r=pg&s=200&format=png"}
                       alt={team.teamName}
                       fill
                       sizes="(max-width: 1024px) 112px, 144px"

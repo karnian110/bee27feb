@@ -15,7 +15,7 @@ export default async function Home() {
     // Transform each user safely
     const researchers = users.map((user) => ({
       name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unnamed',
-      profilePicture: user.profilePicture || 'https://via.placeholder.com/150',
+      profilePicture: user.profilePicture || 'https://www.gravatar.com/avatar/?d=mp&f=y&r=pg&s=200&format=png',
       title: user.title || '',
       institution: user.institution || '',
       location: user.location || '',
