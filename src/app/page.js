@@ -6,6 +6,8 @@ import CoursesComingSoon from '@/components/custom/CoursesComingSoon'; // Fixed 
 import dbConnect from '@/lib/db';
 import Featured from '@/lib/models/Featured';
 
+export const revalidate = 120; 
+
 export default async function Home() {
   try {
     // Connect to database with error handling
